@@ -3,8 +3,6 @@ import os
 import re
 import fitz
 import pdfplumber
-import nltk
-from nltk.tokenize import sent_tokenize
 from sentence_transformers import SentenceTransformer, util
 import torch
 from io import BytesIO
@@ -88,13 +86,20 @@ def extract_lines_from_pdf(uploaded_file):
 
 # Helper function to process manual input text
 def process_manual_input(text_input, source_name="Manual Input"):
+    import nltk
+    from nltk.tokenize import PunktSentenceTokenizer
+
+    # Ensure the correct tokenizer is available
     try:
         nltk.data.find('tokenizers/punkt')
     except LookupError:
         nltk.download('punkt')
 
+    # Use the standard Punkt tokenizer
+    tokenizer = PunktSentenceTokenizer()
+    sentences = tokenizer.tokenize(text_input)
+
     lines = []
-    sentences = sent_tokenize(text_input)
     for sentence in sentences:
         cleaned = sentence.strip().replace('\xa0', ' ')
         cleaned = re.sub(r'\s+', ' ', cleaned)
