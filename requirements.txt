@@ -1,0 +1,6 @@
+streamlit
+pdfplumber
+PyMuPDF
+nltk
+sentence-transformers
+torch
