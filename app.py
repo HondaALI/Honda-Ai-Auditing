@@ -45,8 +45,13 @@ def extract_lines_from_pdf(uploaded_file):
         with pdfplumber.open(uploaded_file) as pdf:
             for page in pdf.pages:
                 page_text = page.extract_text()
-                if page_text:
-                    sentences = sent_tokenize(page_text)
+                if page_text:     
+                try:
+                    nltk.data.find('tokenizers/punkt')
+                except LookupError:
+                    nltk.download('punkt')
+                    tokenizer = PunktSentenceTokenizer()
+                    sentences = tokenizer.tokenize(page_text)
                     for sentence in sentences:
                         cleaned_sentence = sentence.strip().replace('\xa0', ' ').replace('\n', ' ')
                         cleaned_sentence = re.sub(r'\s+', ' ', cleaned_sentence).strip()
