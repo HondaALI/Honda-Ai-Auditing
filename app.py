@@ -6,6 +6,8 @@ import pdfplumber
 from sentence_transformers import SentenceTransformer, util
 import torch
 from io import BytesIO
+import nltk
+from nltk.tokenize import PunktSentenceTokenizer
 
 # Ensure NLTK tokenizer is available
 @st.cache_resource
@@ -86,9 +88,6 @@ def extract_lines_from_pdf(uploaded_file):
 
 # Helper function to process manual input text
 def process_manual_input(text_input, source_name="Manual Input"):
-    import nltk
-    from nltk.tokenize import PunktSentenceTokenizer
-
     # Ensure the correct tokenizer is available
     try:
         nltk.data.find('tokenizers/punkt')
