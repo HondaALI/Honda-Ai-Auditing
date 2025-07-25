@@ -88,12 +88,16 @@ def extract_lines_from_pdf(uploaded_file):
 
 # Helper function to process manual input text
 def process_manual_input(text_input, source_name="Manual Input"):
+    try:
+        nltk.data.find('tokenizers/punkt')
+    except LookupError:
+        nltk.download('punkt')
+
     lines = []
     sentences = sent_tokenize(text_input)
     for sentence in sentences:
         cleaned = sentence.strip().replace('\xa0', ' ')
         cleaned = re.sub(r'\s+', ' ', cleaned)
-        # Bypass validation and include all sentences
         lines.append({
             "text": cleaned,
             "source_pdf": source_name
