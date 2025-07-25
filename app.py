@@ -46,10 +46,10 @@ def extract_lines_from_pdf(uploaded_file):
             for page in pdf.pages:
                 page_text = page.extract_text()
                 if page_text:     
-                try:
-                    nltk.data.find('tokenizers/punkt')
-                except LookupError:
-                    nltk.download('punkt')
+                    try:
+                        nltk.data.find('tokenizers/punkt')
+                    except LookupError:
+                        nltk.download('punkt')
                     tokenizer = PunktSentenceTokenizer()
                     sentences = tokenizer.tokenize(page_text)
                     for sentence in sentences:
